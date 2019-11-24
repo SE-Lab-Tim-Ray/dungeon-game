@@ -1,4 +1,5 @@
 # block class used to create array of rectangles for walls
+#
 class Block:
     def __init__(self, rect):  # TC remove image
         # self.img = img # TC remove image

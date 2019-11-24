@@ -1,6 +1,7 @@
 # coding=gbk
 """
 hero and block are both 100X100
+Adding commment
 """
 import pygame
 from GameMap import *  # TC
