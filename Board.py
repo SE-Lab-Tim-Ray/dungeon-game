@@ -15,16 +15,13 @@ class board:
     """
     def board_get_result(self,board_nickname='NoName', board_time=player_time):
         board_nickname = NICKNAME
-        board_time = TIMER - player_time
+        board_time = player_time
         leader_board = open(leader_board_filename,'a')
-        leader_board.write(board_nickname+'    '+board_time)
+        leader_board.write(board_nickname+'    '+player_time)
         leader_board.write('\n')
         leader_board.close()
 
     def print_text(font, x, y, text, color=(0, 0, 0)):
-
-        imgText = font.render(text, True, (0, 0, 0))
-        screen.blit(imgText, (x - 2, y - 2))
         imgText = font.render(text, True, color)
         screen.blit(imgText, (x, y))
 
