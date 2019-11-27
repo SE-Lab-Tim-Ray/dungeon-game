@@ -1,11 +1,11 @@
-from temp_folder.core_code import *
-from Board import *
-from Timer import *
 from Hero import *
 from GameMap import *
+import time
 
-WHITE = (0, 255, 255)  # TC
+WHITE = (0, 255, 255)
 game_over = False
+last_time = 0
+counter = 10
 class Game:
     def __init__(self, title, screen_width, screen_height, fps=60):
         """
@@ -40,22 +40,16 @@ class Game:
         self.clock = pygame.time.Clock()
 
     def __init_game(self):
-        self.start_board = Board()
-        self.start_board.draw_start_board()
         self.game_map_img = pygame.image.load('./resources/images/maze1.png').convert_alpha()
         self.game_map = GameMap(self.game_map_img, 0, 0)
         self.maze_win_img = pygame.image.load('./resources/images/1_win.png').convert_alpha()
-
         global block_group
         # global isOver
         self.game_map.make_block_group('./resources/maps/maze1.txt')
-        # fill up the block_group as a marker
-
-        self.timer = Timer()
         self.hero_fulimg = pygame.image.load('./resources/images/char1.png').convert_alpha()
         self.hero_rect = Rect(32, 32, self.hero_width, self.hero_height)
         self.hero = Hero(self.hero_fulimg, self.hero_rect, self.hero_born_x, self.hero_born_y)
-        self.leader_board = Board()
+        self.font = pygame.font.Font(None, 40)
 
         # **************Version 2******************
         self.rat = None
@@ -65,7 +59,7 @@ class Game:
 
     def update(self):
         # global isOver
-        global game_over
+        global game_over, counter, last_time
         while 1:
             if game_over:
                 self.screen.blit(self.maze_win_img, (0, 0))  # win bg
@@ -79,18 +73,23 @@ class Game:
                 continue
 
             # game is playing
-            self.screen.fill(WHITE)
             # draw the map
             self.game_map.draw_map(self.screen)
 
-            # Timer
-            self.timer.draw_timer()
             # game map roll
             self.game_map.map_roll(self.hero.hero_coordinate_x, self.hero.hero_coordinate_y)
 
             for n in pygame.event.get():
                 if n.type == QUIT:
                     exit()
+            # Timer
+            ticks = pygame.time.get_ticks()
+            if ticks > last_time + 1000:
+                last_time = ticks
+                counter -= 1
+                textclock = str(counter)
+                # print(counter)
+                self.screen.blit(self.font.render(textclock, True, (0, 0, 0)), (0, 0))
 
             # logic update
             press_keys = pygame.key.get_pressed()
