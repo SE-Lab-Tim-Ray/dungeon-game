@@ -3,6 +3,7 @@ from GameMap import *
 
 GAME_OVER = False
 WHITE = (255, 255, 255)
+# Timer parameter
 last_time = 0
 counter = 100
 
