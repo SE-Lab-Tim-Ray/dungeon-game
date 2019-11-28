@@ -43,13 +43,16 @@ class Game:
 
     def __init_game(self):
         global BLOCK_GROUP
+        # map
         self.maze_win_img = pygame.image.load('./resources/images/1_win.png').convert_alpha()
         self.game_map_img = pygame.image.load('./resources/images/1_maze.png').convert_alpha()
         self.game_map = GameMap(self.game_map_img, 0, 0)
         self.game_map.make_block_group('./resources/maps/1_maze.txt')
+        # hero
         self.hero_fulimg = pygame.image.load('./resources/images/1_char.png').convert_alpha()
         self.hero_rect = Rect(32, 32, self.hero_width, self.hero_height)
         self.hero = Hero(self.hero_fulimg, self.hero_rect, self.hero_born_x, self.hero_born_y)
+        # others
         self.font = pygame.font.Font(None, 24)
 
     def update(self):
