@@ -1,5 +1,6 @@
 from Hero import *
 from GameMap import *
+from Startbox import *
 
 """
 CONSTANTS
@@ -126,5 +127,6 @@ class Game:
 
 
 if __name__ == "__main__":
+    startbox()
     Game(GAME_TITLE, SCREEN_SIZE[0], SCREEN_SIZE[1])
 
