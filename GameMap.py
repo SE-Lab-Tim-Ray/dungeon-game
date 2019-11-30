@@ -6,11 +6,6 @@ GameMap should include(Version 1)
 2.Map drawing
 """
 
-# consist of all the block rect based on the 1_maze.txt
-BLOCK_GROUP = []
-# each tile size
-TILE_SIZE = 32
-
 
 # block class used to create array of rectangles for walls
 class Block:
@@ -33,12 +28,12 @@ class GameMap():
         screen.blit(self.game_map_img, (self.map_x, self.map_y))
 
     # global block_group list is for Hero and monsters movement used in their own .py files
-    def make_block_group(self, maze_map_file):
+    def make_block_group(self, maze_map_file, TILE_SIZE):
         """
         label the block position in block_group list
         """
-        global BLOCK_GROUP
-        BLOCK_GROUP.clear()
+        block_group = []
+        block_group.clear()
 
         # read the 1_maze.txt into lines as list
         with open(maze_map_file, 'r') as f:
@@ -56,4 +51,6 @@ class GameMap():
             for j in range(maze_map_width):
                 if maze_lines[i][j] == str(1):
                     block = Block(pygame.Rect(TILE_SIZE * j, TILE_SIZE * i, TILE_SIZE, TILE_SIZE))
-                    BLOCK_GROUP.append(block)
+                    block_group.append(block)
+
+        return block_group
