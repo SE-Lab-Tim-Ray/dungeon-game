@@ -103,23 +103,19 @@ class Game:
         if hero_rect1.top >= hero_rect2.top - GAME_TILE_SIZE and hero_rect1.bottom <= hero_rect2.bottom + GAME_TILE_SIZE:
             if hero_rect1.right >= hero_rect2.right >= hero_rect1.left:
                 is_collision = True
-                print("Collide left")
         # right
         if hero_rect1.top >= hero_rect2.top - GAME_TILE_SIZE and hero_rect1.bottom <= hero_rect2.bottom + GAME_TILE_SIZE:
             if hero_rect1.left <= hero_rect2.left <= hero_rect1.right:
                 is_collision = True
-                print("Collide right")
 
         # up
         if hero_rect1.left >= hero_rect2.left - GAME_TILE_SIZE and hero_rect1.right <= hero_rect2.right + GAME_TILE_SIZE:
             if hero_rect1.bottom >= hero_rect2.bottom >= hero_rect1.top:
                 is_collision = True
-                print("Collide up")
 
         if hero_rect1.left >= hero_rect2.left - GAME_TILE_SIZE and hero_rect1.right <= hero_rect2.right + GAME_TILE_SIZE:
             if hero_rect1.top <= hero_rect2.top <= hero_rect1.bottom:
                 is_collision = True
-                print("Collide down")
         return is_collision
 
 
@@ -146,7 +142,7 @@ class Game:
                 # show the winner name and time remaining
                 self.screen.blit(self.font.render(NICKNAME_TEXT + self.nickname, True, WHITE), NICKNAME_LOCATION)
                 self.screen.blit(self.font.render(text_clock, True, WHITE), (NICKNAME_LOCATION[0], NICKNAME_LOCATION[1]+NICKNAME_LEADING))
-                print(self.nickname)
+                # print(self.nickname)
                 pygame.display.update()
                 for m in pygame.event.get():
                     if m.type == QUIT:
