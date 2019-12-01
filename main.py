@@ -20,6 +20,7 @@ TIMER_TEXT = "Time remaining: "
 
 # Builing the maze
 MAZE_WIN_IMG = "./resources/images/1_win.png"
+MAZE_LOSE_IMG = "./resources/images/1_lose.png"
 NICKNAME_LOCATION = (280, 350)
 NICKNAME_FONT_SIZE = 40
 NICKNAME_TEXT = "Well done "
@@ -27,11 +28,16 @@ NICKNAME_LEADING = 20
 MAZE_MAP_IMG = "./resources/images/1_maze.png"
 MAZE_MAP = "./resources/maps/1_maze.txt"
 CHARACTER_IMG = "./resources/images/1_char.png"
+
 WIN_BLOCK_FROM_END = 26  # defines the win square
 HERO_TILE_SIZE = 32  # size in px of main player height and width
 GAME_TILE_SIZE = 32   # size in px of main grid height and width
 PLAYER_BORN_X = 1 * HERO_TILE_SIZE  # x position where hero starts in px
 PLAYER_BORN_Y = 1 * HERO_TILE_SIZE  # y position where hero starts in px
+
+RAT_IMG = "./resources/images/rat.png"
+RAT_BORN_X = 23 * HERO_TILE_SIZE  # x position where rat starts in px
+RAT_BORN_Y = 17 * HERO_TILE_SIZE  # y position where rat starts in px
 
 class Game:
     def __init__(self, title, screen_width, screen_height, nickname, fps=GAME_SPEED):
@@ -71,6 +77,7 @@ class Game:
         global BLOCK_GROUP
         # map
         self.maze_win_img = pygame.image.load(MAZE_WIN_IMG).convert_alpha()
+        self.maze_lose_img = pygame.image.load(MAZE_LOSE_IMG).convert_alpha()
         self.game_map_img = pygame.image.load(MAZE_MAP_IMG).convert_alpha()
         self.game_map = GameMap(self.game_map_img, 0, 0)
         self.game_block_group = self.game_map.make_block_group(MAZE_MAP, GAME_TILE_SIZE)
@@ -81,6 +88,41 @@ class Game:
         # others
         self.font = pygame.font.Font(None, TIMER_FONT_SIZE)
 
+        # rat
+        self.rat_fulimg = pygame.image.load(RAT_IMG).convert_alpha()
+
+        # start at space two (harcoded)
+        self.rat_rect = Rect(RAT_BORN_X, RAT_BORN_Y, GAME_TILE_SIZE, GAME_TILE_SIZE)
+        # pretty sure that the rat_rect includes the x,y for start, not the last 2 params of Hero
+        self.rat = Hero(self.rat_fulimg, self.rat_rect, 15, 1, GAME_TILE_SIZE)
+
+
+    def collide(self, hero_rect1, hero_rect2, GAME_TILE_SIZE):
+        is_collision = False
+        # hero/monster conflict LEFT
+        if hero_rect1.top >= hero_rect2.top - GAME_TILE_SIZE and hero_rect1.bottom <= hero_rect2.bottom + GAME_TILE_SIZE:
+            if hero_rect1.right >= hero_rect2.right >= hero_rect1.left:
+                is_collision = True
+                print("Collide left")
+        # right
+        if hero_rect1.top >= hero_rect2.top - GAME_TILE_SIZE and hero_rect1.bottom <= hero_rect2.bottom + GAME_TILE_SIZE:
+            if hero_rect1.left <= hero_rect2.left <= hero_rect1.right:
+                is_collision = True
+                print("Collide right")
+
+        # up
+        if hero_rect1.left >= hero_rect2.left - GAME_TILE_SIZE and hero_rect1.right <= hero_rect2.right + GAME_TILE_SIZE:
+            if hero_rect1.bottom >= hero_rect2.bottom >= hero_rect1.top:
+                is_collision = True
+                print("Collide up")
+
+        if hero_rect1.left >= hero_rect2.left - GAME_TILE_SIZE and hero_rect1.right <= hero_rect2.right + GAME_TILE_SIZE:
+            if hero_rect1.top <= hero_rect2.top <= hero_rect1.bottom:
+                is_collision = True
+                print("Collide down")
+        return is_collision
+
+
     def update(self):
 
         # initialise counter
@@ -89,8 +131,12 @@ class Game:
         # counts time elapsed in ticks
         last_time = 0
 
+        # counter to delay rat moves
+        last_rat_move = 0
+
         # is the game over yet ?
         game_over = False
+        lose_game = False
 
         # main game loop
         while 1:
@@ -109,7 +155,16 @@ class Game:
                         exit()
                 self.clock.tick(self.fps)
                 continue
-
+            if lose_game:
+                self.screen.blit(self.maze_lose_img, (0, 0))  # win bg
+                pygame.display.update()
+                for m in pygame.event.get():
+                    if m.type == QUIT:
+                        exit()
+                    if m.type == KEYDOWN:
+                        exit()
+                self.clock.tick(self.fps)
+                continue
             # game is playing
             for event in pygame.event.get():
                 if event.type == QUIT:
@@ -128,9 +183,19 @@ class Game:
             text_clock = TIMER_TEXT + str(counter)
             self.screen.blit(self.font.render(text_clock, True, WHITE), TIMER_LOCATION)
 
+            # Only move rat slower every x ms
+            move_rat = False
+            if ticks > last_rat_move + 10:
+                move_rat = True
+                last_rat_move = ticks
+            self.rat.monster_move(self.screen, self.hero_rect, self.game_block_group, move_rat, GAME_TILE_SIZE)
+
             # logic update
             press_keys = pygame.key.get_pressed()
             game_over = self.hero.hero_moving(self.screen, press_keys, self.game_block_group, SCREEN_SIZE[0], SCREEN_SIZE[1], WIN_BLOCK_FROM_END, GAME_TILE_SIZE)
+
+            # collision detection
+            lose_game = self.collide(self.rat_rect, self.hero_rect, GAME_TILE_SIZE)
 
             pygame.display.update()
             self.clock.tick(self.fps)
