@@ -1,50 +1,48 @@
 from pygame.locals import *
 
 class Hero:
-    def __init__(self, hero_fulimg, hero_rect, mx, my, GAME_TILE_SIZE):
-        # the full sprite img of hero
+    def __init__(self, hero_fulimg, hero_rect, GAME_TILE_SIZE):
+        # Hero image
         self.hero_fulimg = hero_fulimg
 
-        # single sprite img of hero
+        # attach image to surface
         self.hero_img = [self.hero_fulimg.subsurface(Rect((0, 0), (GAME_TILE_SIZE, GAME_TILE_SIZE)))]
         self.hero_rect = hero_rect
-        self.mx = mx
-        self.my = my
-        self.hero_coordinate_x = mx * GAME_TILE_SIZE
-        self.hero_coordinate_y = my * GAME_TILE_SIZE
         self.hero_speed = 4
 
     def hero_moving(self, screen, press_keys, block_group, window_x, window_y, WIN_BLOCK_FROM_END, GAME_TILE_SIZE):
         """
         use the block_group list created by GameMap.py
         :param screen: game screen
-        :param press_keys: keyboard pressed
-        :param block_group: labeled block_group list by GameMap.py
-        :return: ISOVER: True if hero hits the win block
+        :param press_keys: keys pressed on keyboard
+        :param block_group: list of rectangles where wall squares are
+        :return: is_over: True if hero hits the win block
         """
-
+        #  assume the game is not over until proved otherwise
         is_over = False
+
+        # end game on hitting escape
         if press_keys[K_ESCAPE]:
             exit()
 
-        # moving key pressed
+        # if left arrow key pressed move to left by speed factor
         if press_keys[K_LEFT]:
             self.hero_rect.left -= self.hero_speed
-            # window conflict with hero
+            # has the character hit the edge of the screen, if so dont let past
             if self.hero_rect.left <= 0:
                 self.hero_rect.left = 0
-            # block conflict with hero
+            # has the player hit a wall (in block group)
             for n in range(len(block_group)):
                 # hero and block conflict
                 if self.hero_rect.top > block_group[n].rect.top - GAME_TILE_SIZE and self.hero_rect.bottom < \
                         block_group[n].rect.bottom + GAME_TILE_SIZE:
                     if self.hero_rect.right > block_group[n].rect.right > self.hero_rect.left:
-                        # hit win block
+                        # If the character has hit a block - is it the win block?
                         if n == len(block_group) - WIN_BLOCK_FROM_END:
-                            # win
+                            # set variable to return function game over
                             is_over = True
                         else:
-                            # hit the normal block
+                            # hit a normal block so undo the move
                             self.hero_rect.left += self.hero_speed
 
         if press_keys[K_RIGHT]:
@@ -92,6 +90,7 @@ class Hero:
 
     def monster_move(self, screen, hero_rect, block_group, move_rat, GAME_TILE_SIZE):
         """
+        Move the monster in the direction of the character
         use the hero_rect for hero. self.hero_rect refers to the monster
         """
         isCaught = False
@@ -105,7 +104,7 @@ class Hero:
         x_offset = self.hero_rect.left - hero_rect.left
         y_offset = self.hero_rect.top - hero_rect.top
 
-
+        # move either left or right
         if x_offset > 0:
             move_left = True
         if x_offset < 0:
@@ -121,9 +120,6 @@ class Hero:
         if move_rat and move_left:
             #  was sel.hero_speed
             self.hero_rect.left -= 1
-            # window conflict with monster/hero
-            # if self.hero_rect.left <= 0:
-            #     self.hero_rect.left = 0
 
             # conflict with block
             for n in range(len(block_group)):  # block_group list is all block
@@ -136,9 +132,7 @@ class Hero:
         # MOVING RIGHT
         if move_rat and move_right:
             self.hero_rect.left += 1
-            # window conflict with hero
-            # if self.hero_rect.right >= SCREEN_SIZE[0]:
-            #     self.hero_rect.right = SCREEN_SIZE[0]
+
             # conflict with block
             for n in range(len(block_group)):
                 if self.hero_rect.top > block_group[n].rect.top - GAME_TILE_SIZE and self.hero_rect.bottom < \
@@ -148,8 +142,7 @@ class Hero:
         # MOVIN UP
         if move_rat and move_up:
             self.hero_rect.top -= 1
-            # if self.hero_rect.top <= 0:
-            #     self.hero_rect.top = 0
+
             # conflict with block
             for n in range(len(block_group)):
                 if self.hero_rect.left > block_group[n].rect.left - GAME_TILE_SIZE and self.hero_rect.right < \
@@ -160,13 +153,17 @@ class Hero:
         # Movin DOWN
         if move_rat and move_down:
             self.hero_rect.top += 1
-            # if self.hero_rect.bottom >= SCREEN_SIZE[1]:
-            #     self.hero_rect.bottom = SCREEN_SIZE[1]
+
+            # conflict with block
             for n in range(len(block_group)):
                 if self.hero_rect.left > block_group[n].rect.left - GAME_TILE_SIZE and self.hero_rect.right < \
                         block_group[n].rect.right + GAME_TILE_SIZE:
                     if self.hero_rect.top < block_group[n].rect.top < self.hero_rect.bottom:
                         self.hero_rect.top -= 1 # if so, undo the move
+
+        # transfer new position of hero
         screen.blit(self.hero_img[0], self.hero_rect)
+
+        # if the monster has touched the character, then return function as true
         return isCaught
 

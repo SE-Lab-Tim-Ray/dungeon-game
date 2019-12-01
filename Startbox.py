@@ -63,6 +63,6 @@ def startbox():
     input_box_show_var.pack(side=tk.TOP, expand=tk.YES)
     input_box_show_var["bg"] = "white"
 
-    #the box show on the screen continually
+    # show the box on the screen continuously
     tk.mainloop()
     return nickname

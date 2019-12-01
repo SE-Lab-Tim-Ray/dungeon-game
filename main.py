@@ -18,7 +18,7 @@ TIMER_FONT_SIZE = 24
 TIMER_LOCATION = (8, 8)
 TIMER_TEXT = "Time remaining: "
 
-# Builing the maze
+# Building the maze
 MAZE_WIN_IMG = "./resources/images/1_win.png"
 MAZE_LOSE_IMG = "./resources/images/1_lose.png"
 NICKNAME_LOCATION = (280, 350)
@@ -38,6 +38,8 @@ PLAYER_BORN_Y = 1 * HERO_TILE_SIZE  # y position where hero starts in px
 RAT_IMG = "./resources/images/rat.png"
 RAT_BORN_X = 23 * HERO_TILE_SIZE  # x position where rat starts in px
 RAT_BORN_Y = 17 * HERO_TILE_SIZE  # y position where rat starts in px
+SLOW_RAT = 10  # make rat update every x ms
+
 
 class Game:
     def __init__(self, title, screen_width, screen_height, nickname, fps=GAME_SPEED):
@@ -75,26 +77,27 @@ class Game:
 
     def __init_game(self):
         global BLOCK_GROUP
-        # map
+        # initialise map
         self.maze_win_img = pygame.image.load(MAZE_WIN_IMG).convert_alpha()
         self.maze_lose_img = pygame.image.load(MAZE_LOSE_IMG).convert_alpha()
         self.game_map_img = pygame.image.load(MAZE_MAP_IMG).convert_alpha()
         self.game_map = GameMap(self.game_map_img, 0, 0)
         self.game_block_group = self.game_map.make_block_group(MAZE_MAP, GAME_TILE_SIZE)
-        # hero
+        # initialise hero
         self.hero_fulimg = pygame.image.load(CHARACTER_IMG).convert_alpha()
         self.hero_rect = Rect(self.hero_born_x, self.hero_born_y, self.hero_width, self.hero_height)
-        self.hero = Hero(self.hero_fulimg, self.hero_rect, self.hero_born_x, self.hero_born_y, GAME_TILE_SIZE)
+        self.hero = Hero(self.hero_fulimg, self.hero_rect, GAME_TILE_SIZE)
         # others
         self.font = pygame.font.Font(None, TIMER_FONT_SIZE)
 
-        # rat
+        # initialise rat
         self.rat_fulimg = pygame.image.load(RAT_IMG).convert_alpha()
 
-        # start at space two (harcoded)
+        # start rat at particular space
         self.rat_rect = Rect(RAT_BORN_X, RAT_BORN_Y, GAME_TILE_SIZE, GAME_TILE_SIZE)
+
         # pretty sure that the rat_rect includes the x,y for start, not the last 2 params of Hero
-        self.rat = Hero(self.rat_fulimg, self.rat_rect, 15, 1, GAME_TILE_SIZE)
+        self.rat = Hero(self.rat_fulimg, self.rat_rect, GAME_TILE_SIZE)
 
 
     def collide(self, hero_rect1, hero_rect2, GAME_TILE_SIZE):
@@ -181,7 +184,7 @@ class Game:
 
             # Only move rat slower every x ms
             move_rat = False
-            if ticks > last_rat_move + 10:
+            if ticks > last_rat_move + SLOW_RAT:
                 move_rat = True
                 last_rat_move = ticks
             self.rat.monster_move(self.screen, self.hero_rect, self.game_block_group, move_rat, GAME_TILE_SIZE)
