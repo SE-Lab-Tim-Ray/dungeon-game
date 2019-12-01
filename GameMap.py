@@ -54,3 +54,4 @@ class GameMap():
                     block_group.append(block)
 
         return block_group
+
