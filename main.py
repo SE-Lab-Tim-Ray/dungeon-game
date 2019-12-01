@@ -20,6 +20,10 @@ TIMER_TEXT = "Time remaining: "
 
 # Builing the maze
 MAZE_WIN_IMG = "./resources/images/1_win.png"
+NICKNAME_LOCATION = (280, 350)
+NICKNAME_FONT_SIZE = 40
+NICKNAME_TEXT = "Well done "
+NICKNAME_LEADING = 20
 MAZE_MAP_IMG = "./resources/images/1_maze.png"
 MAZE_MAP = "./resources/maps/1_maze.txt"
 CHARACTER_IMG = "./resources/images/1_char.png"
@@ -30,7 +34,7 @@ PLAYER_BORN_X = 1 * HERO_TILE_SIZE  # x position where hero starts in px
 PLAYER_BORN_Y = 1 * HERO_TILE_SIZE  # y position where hero starts in px
 
 class Game:
-    def __init__(self, title, screen_width, screen_height, fps=GAME_SPEED):
+    def __init__(self, title, screen_width, screen_height, nickname, fps=GAME_SPEED):
         """
         25 columns width and 19 columns height
         :param title: title of the game
@@ -44,6 +48,7 @@ class Game:
         self.screen_height = screen_height
         self.fps = fps
         self.screen = None
+        self.nickname = nickname
 
         # data for game
         self.hero_born_x = PLAYER_BORN_X
@@ -84,13 +89,18 @@ class Game:
         # counts time elapsed in ticks
         last_time = 0
 
-        # has the hero won yet ?
+        # is the game over yet ?
         game_over = False
 
         # main game loop
         while 1:
             if game_over:
-                self.screen.blit(self.maze_win_img, (0, 0))  # win bg
+                # show the win background
+                self.screen.blit(self.maze_win_img, (0, 0))
+                # show the winner name and time remaining
+                self.screen.blit(self.font.render(NICKNAME_TEXT + self.nickname, True, WHITE), NICKNAME_LOCATION)
+                self.screen.blit(self.font.render(text_clock, True, WHITE), (NICKNAME_LOCATION[0], NICKNAME_LOCATION[1]+NICKNAME_LEADING))
+                print(self.nickname)
                 pygame.display.update()
                 for m in pygame.event.get():
                     if m.type == QUIT:
@@ -127,6 +137,6 @@ class Game:
 
 
 if __name__ == "__main__":
-    startbox()
-    Game(GAME_TITLE, SCREEN_SIZE[0], SCREEN_SIZE[1])
+
+    Game(GAME_TITLE, SCREEN_SIZE[0], SCREEN_SIZE[1], nickname = startbox())
 
