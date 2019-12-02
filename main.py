@@ -1,6 +1,7 @@
 from Hero import *
 from GameMap import *
 from Startbox import *
+from LeaderBoard import *
 
 """
 CONSTANTS
@@ -40,6 +41,8 @@ RAT_BORN_X = 23 * HERO_TILE_SIZE  # x position where rat starts in px
 RAT_BORN_Y = 17 * HERO_TILE_SIZE  # y position where rat starts in px
 SLOW_RAT = 10  # make rat update every x ms
 
+leader_board_content = []
+count = 0
 
 class Game:
     def __init__(self, title, screen_width, screen_height, nickname, fps=GAME_SPEED):
@@ -140,19 +143,31 @@ class Game:
         # main game loop
         while 1:
             if game_over:
+                global count, leader_board_content
                 # show the win background
                 self.screen.blit(self.maze_win_img, (0, 0))
                 # show the winner name and time remaining
                 self.screen.blit(self.font.render(NICKNAME_TEXT + self.nickname, True, WHITE), NICKNAME_LOCATION)
                 self.screen.blit(self.font.render(text_clock, True, WHITE), (NICKNAME_LOCATION[0], NICKNAME_LOCATION[1]+NICKNAME_LEADING))
-                # print(self.nickname)
+                # position of each line of the leaderboard
+                x = 0
+                y = 0
+                for i in leader_board_content:
+                    self.screen.blit(self.font.render(i, True, WHITE), (x, y))
+                    y += 40
                 pygame.display.update()
+                self.clock.tick(self.fps)
+                # print(self.nickname)
+                # pygame.display.update()
                 for m in pygame.event.get():
                     if m.type == QUIT:
                         exit()
                     if m.type == KEYDOWN:
                         exit()
-                self.clock.tick(self.fps)
+                # get the result and write into txt file
+                if(count == 0):
+                    leader_board_content = LeaderBoard.board_input_result(self.nickname, int(counter))
+                    count += 1
                 continue
             if lose_game:
                 self.screen.blit(self.maze_lose_img, (0, 0))  # win bg
