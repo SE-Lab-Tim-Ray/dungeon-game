@@ -4,7 +4,7 @@ class LeaderBoard:
         self.leader_board = open(LEADER_BOARD_PATH, 'r')
         self.leader_board.close()
     def board_input_result(nickname='NoName', score=0):
-        leader_board_name = str(nickname).ljust(20)
+        leader_board_name = str(nickname.strip()).ljust(20)
         leader_board_score = str(score).rjust(10)
         #the content for one line we put into the screen is leader_board_result
         leader_board_result = leader_board_name+leader_board_score+'\n'
@@ -17,12 +17,11 @@ class LeaderBoard:
             elif contents:
                 flag = True
                 for line in contents:
-                    if int(line[20:30].strip()) <= score and flag:
+                    if int(line[20:31].strip()) <= score and flag:
                         line = leader_board_result + line
                         flag = False
-                    elif int(line[20:30].strip()) > score and flag:
+                    elif int(line[20:31].strip()) > score and flag:
                         line = line + leader_board_result
-                        print(int(line[20:30].strip()))
                         flag = False
                     out_file.write(line)
         with open(LEADER_BOARD_PATH, 'r') as final_file:
