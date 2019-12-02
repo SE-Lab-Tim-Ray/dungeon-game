@@ -21,6 +21,7 @@ TIMER_TEXT = "Time remaining: "
 
 # Building the maze
 MAZE_WIN_IMG = "./resources/images/1_win.png"
+MAZE_WIN_HOLDSCREEN = 3 * ONE_SECOND  # Time to hold win screen
 MAZE_LOSE_IMG = "./resources/images/1_lose.png"
 NICKNAME_LOCATION = (280, 350)
 NICKNAME_FONT_SIZE = 40
@@ -40,6 +41,14 @@ RAT_IMG = "./resources/images/rat.png"
 RAT_BORN_X = 23 * HERO_TILE_SIZE  # x position where rat starts in px
 RAT_BORN_Y = 17 * HERO_TILE_SIZE  # y position where rat starts in px
 SLOW_RAT = 10  # make rat update every x ms
+
+# Leaderboard
+LEADERBOARD_IMG = "./resources/images/leaderboard.png"
+LEADER_BOARD_X = 250
+LEADER_BOARD_Y = 320
+LEADER_BOARD_COLUMN_OFFSET = 250
+LEADER_BOARD_FONT_SIZE = 40
+LEADER_BOARD_LEADING = 40
 
 leader_board_content = []
 count = 0
@@ -83,6 +92,7 @@ class Game:
         # initialise map
         self.maze_win_img = pygame.image.load(MAZE_WIN_IMG).convert_alpha()
         self.maze_lose_img = pygame.image.load(MAZE_LOSE_IMG).convert_alpha()
+        self.maze_leaderboard_img = pygame.image.load(LEADERBOARD_IMG).convert_alpha()
         self.game_map_img = pygame.image.load(MAZE_MAP_IMG).convert_alpha()
         self.game_map = GameMap(self.game_map_img, 0, 0)
         self.game_block_group = self.game_map.make_block_group(MAZE_MAP, GAME_TILE_SIZE)
@@ -90,7 +100,7 @@ class Game:
         self.hero_fulimg = pygame.image.load(CHARACTER_IMG).convert_alpha()
         self.hero_rect = Rect(self.hero_born_x, self.hero_born_y, self.hero_width, self.hero_height)
         self.hero = Hero(self.hero_fulimg, self.hero_rect, GAME_TILE_SIZE)
-        # others
+        # Set font size
         self.font = pygame.font.Font(None, TIMER_FONT_SIZE)
 
         # initialise rat
@@ -139,26 +149,37 @@ class Game:
         # is the game over yet ?
         game_over = False
         lose_game = False
-
+        win_time = 0
         # main game loop
         while 1:
             if game_over:
                 global count, leader_board_content
-                # show the win background
-                self.screen.blit(self.maze_win_img, (0, 0))
-                # show the winner name and time remaining
-                self.screen.blit(self.font.render(NICKNAME_TEXT + self.nickname, True, WHITE), NICKNAME_LOCATION)
-                self.screen.blit(self.font.render(text_clock, True, WHITE), (NICKNAME_LOCATION[0], NICKNAME_LOCATION[1]+NICKNAME_LEADING))
-                # position of each line of the leaderboard
-                x = 0
-                y = 0
-                for i in leader_board_content:
-                    lb_name_and_score = i.split()
-                    lb_name = lb_name_and_score[0]
-                    lb_score = lb_name_and_score[1]
-                    self.screen.blit(self.font.render(lb_name, True, WHITE), (x, y))
-                    self.screen.blit(self.font.render(lb_score, True, WHITE), (x+300, y))
-                    y += 40
+                # hold the win screen
+                if win_time == 0:
+                    win_time = pygame.time.get_ticks()
+                    # show the win background
+                    self.screen.blit(self.maze_win_img, (0, 0))
+                    # show the winner name and time remaining
+                    self.screen.blit(self.font.render(NICKNAME_TEXT + self.nickname, True, WHITE), NICKNAME_LOCATION)
+                    self.screen.blit(self.font.render(text_clock, True, WHITE), (NICKNAME_LOCATION[0], NICKNAME_LOCATION[1]+ NICKNAME_LEADING))
+
+                now = pygame.time.get_ticks()
+                if win_time > 0 and now > (win_time + MAZE_WIN_HOLDSCREEN):
+                    # position of each line of the leaderboard
+                    # show the leaderboard background
+                    self.screen.blit(self.maze_leaderboard_img, (0, 0))
+                    # Set font size
+                    self.font = pygame.font.Font(None, LEADER_BOARD_FONT_SIZE)
+                    x = LEADER_BOARD_X
+                    y = LEADER_BOARD_Y
+                    for i in leader_board_content:
+                        lb_name_and_score = i.split()
+                        lb_name = lb_name_and_score[0]
+                        lb_score = lb_name_and_score[1]
+                        self.screen.blit(self.font.render(lb_name, True, WHITE), (x, y))
+                        self.screen.blit(self.font.render(lb_score, True, WHITE), (x+LEADER_BOARD_COLUMN_OFFSET, y))
+                        y += LEADER_BOARD_LEADING
+
                 pygame.display.update()
                 self.clock.tick(self.fps)
                 # print(self.nickname)
@@ -172,7 +193,11 @@ class Game:
                 if(count == 0):
                     leader_board_content = LeaderBoard.board_input_result(self.nickname, int(counter))
                     count += 1
+
+                pygame.display.update()
+                self.clock.tick(self.fps)
                 continue
+
             if lose_game:
                 self.screen.blit(self.maze_lose_img, (0, 0))  # win bg
                 pygame.display.update()
