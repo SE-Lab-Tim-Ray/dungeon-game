@@ -153,7 +153,11 @@ class Game:
                 x = 0
                 y = 0
                 for i in leader_board_content:
-                    self.screen.blit(self.font.render(i, True, WHITE), (x, y))
+                    lb_name_and_score = i.split()
+                    lb_name = lb_name_and_score[0]
+                    lb_score = lb_name_and_score[1]
+                    self.screen.blit(self.font.render(lb_name, True, WHITE), (x, y))
+                    self.screen.blit(self.font.render(lb_score, True, WHITE), (x+300, y))
                     y += 40
                 pygame.display.update()
                 self.clock.tick(self.fps)
