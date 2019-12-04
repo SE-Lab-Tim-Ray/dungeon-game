@@ -1,7 +1,7 @@
-from Hero import *
-from GameMap import *
-from Startbox import *
-from LeaderBoard import *
+from Code.Hero import *
+from Code.GameMap import *
+from Code.Startbox import *
+from Code.LeaderBoard import *
 
 """
 CONSTANTS
@@ -138,7 +138,6 @@ class Game:
 
 
     def update(self):
-
         # initialise counter
         counter = COUNTER_START
 
