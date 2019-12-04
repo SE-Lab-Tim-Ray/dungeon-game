@@ -1,0 +1,3 @@
+([('main',
+   '/Users/ray/Downloads/悠闲的文件夹/dungeon-game-master/dist/main',
+   'EXECUTABLE')],)
