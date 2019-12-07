@@ -22,6 +22,10 @@ TIMER_TEXT = "Time remaining: "
 # Building the maze
 MAZE_WIN_IMG = "./resources/images/1_win.png"
 MAZE_WIN_HOLDSCREEN = 3 * ONE_SECOND  # Time to hold win screen
+WALL_CHAR = str(1)
+WALL_CHAR_NEW = str(2)
+WALL_NEW_TILE = "./resources/images/new_wall_tile.png"
+MAZE_WIN_IMG = "./resources/images/1_win.png"
 MAZE_LOSE_IMG = "./resources/images/1_lose.png"
 NICKNAME_LOCATION = (280, 350)
 NICKNAME_FONT_SIZE = 40
@@ -97,7 +101,9 @@ class Game:
         self.maze_leaderboard_img = pygame.image.load(LEADERBOARD_IMG).convert_alpha()
         self.game_map_img = pygame.image.load(MAZE_MAP_IMG).convert_alpha()
         self.game_map = GameMap(self.game_map_img, 0, 0)
-        self.game_block_group = self.game_map.make_block_group(MAZE_MAP, GAME_TILE_SIZE)
+        self.game_block_group = self.game_map.make_block_group(MAZE_MAP, GAME_TILE_SIZE, WALL_CHAR)
+        self.game_newwalls_block_group = self.game_map.make_block_group(MAZE_MAP, GAME_TILE_SIZE, WALL_CHAR_NEW)
+        self.newwall_img = pygame.image.load(WALL_NEW_TILE).convert_alpha()
         # initialise hero
         self.hero_fulimg = pygame.image.load(CHARACTER_IMG).convert_alpha()
         self.hero_rect = Rect(self.hero_born_x, self.hero_born_y, self.hero_width, self.hero_height)
@@ -141,8 +147,12 @@ class Game:
         # initialise counter
         counter = COUNTER_START
 
-        # counts time elapsed in ticks
+        # counts time elapsed in ticks for timer
         last_time = 0
+
+        # counts time elapsed in ticks for timer
+        last_wall_time = 0
+        wall_counter = 0
 
         # counter to delay rat moves
         last_rat_move = 0
@@ -241,6 +251,20 @@ class Game:
                 move_rat = True
                 last_rat_move = ticks
             self.rat.monster_move(self.screen, self.hero_rect, self.game_block_group, move_rat, GAME_TILE_SIZE)
+
+            # create new wall
+            if ticks > last_wall_time + 3*ONE_SECOND:
+                # last_wall_time = ticks
+                add_wall_rect = self.game_newwalls_block_group[0].rect
+                print(type(add_wall_rect))
+                print(type(self.game_block_group[0]))
+                block = Block(pygame.Rect(add_wall_rect))
+                self.screen.blit(self.newwall_img, add_wall_rect)  # put new wall block on screen
+                pygame.display.update(add_wall_rect)  # update wall block
+                # pre-pend this block to main game block list
+                self.game_block_group.insert(0,block)
+
+                # wall_counter += 1
 
             # logic update
             press_keys = pygame.key.get_pressed()

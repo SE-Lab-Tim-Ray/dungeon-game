@@ -28,7 +28,7 @@ class GameMap():
         screen.blit(self.game_map_img, (self.map_x, self.map_y))
 
     # global block_group list is for Hero and monsters movement used in their own .py files
-    def make_block_group(self, maze_map_file, TILE_SIZE):
+    def make_block_group(self, maze_map_file, TILE_SIZE, block_str):
         """
         label the block position in block_group list
         """
@@ -49,7 +49,7 @@ class GameMap():
         # based on the list, label the blocks in block_group list
         for i in range(maze_map_height):
             for j in range(maze_map_width):
-                if maze_lines[i][j] == str(1):
+                if maze_lines[i][j] == block_str:
                     block = Block(pygame.Rect(TILE_SIZE * j, TILE_SIZE * i, TILE_SIZE, TILE_SIZE))
                     block_group.append(block)
 
