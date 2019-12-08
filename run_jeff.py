@@ -12,7 +12,7 @@ GAME_TITLE = "Jeff's Lair"
 SCREEN_SIZE = (800, 600)
 GAME_SPEED = 60  # game speed in fps
 
-# timer
+# timer constants
 COUNTER_START = 100  # number of seconds to complete maze
 ONE_SECOND = 1000  # number of ticks in a second for timer
 TIMER_FONT_SIZE = 24
