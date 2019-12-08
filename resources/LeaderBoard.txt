@@ -1,5 +1,5 @@
-Devon,94
-Zhou,80
-,70
+Ray,30
 Hajar,56
+Devon,2
 Geetha,34
+Zhou,80
