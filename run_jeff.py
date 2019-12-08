@@ -45,6 +45,10 @@ CREATE_WALL_INTERVAL = 5  * ONE_SECOND # create new wall block every x seconds
 RAT_IMG = "./resources/images/rat.png"
 RAT_BORN_X = 23 * HERO_TILE_SIZE  # x position where rat starts in px
 RAT_BORN_Y = 17 * HERO_TILE_SIZE  # y position where rat starts in px
+RAT2_BORN_X = 15 * HERO_TILE_SIZE  # x position where rat starts in px
+RAT2_BORN_Y = 1 * HERO_TILE_SIZE  # y position where rat starts in px
+RAT3_BORN_X = 1 * HERO_TILE_SIZE  # x position where rat starts in px
+RAT3_BORN_Y = 17 * HERO_TILE_SIZE  # y position where rat starts in px
 SLOW_RAT = 10  # make rat update every x ms
 
 # Leaderboard
@@ -117,9 +121,15 @@ class Game:
 
         # start rat at particular space
         self.rat_rect = Rect(RAT_BORN_X, RAT_BORN_Y, GAME_TILE_SIZE, GAME_TILE_SIZE)
+        # start rat2 at particular space
+        self.rat2_rect = Rect(RAT2_BORN_X, RAT2_BORN_Y, GAME_TILE_SIZE, GAME_TILE_SIZE)
+        # start rat3 at particular space
+        self.rat3_rect = Rect(RAT3_BORN_X, RAT3_BORN_Y, GAME_TILE_SIZE, GAME_TILE_SIZE)
 
-        # pretty sure that the rat_rect includes the x,y for start, not the last 2 params of Hero
+        # create rat heros
         self.rat = Hero(self.rat_fulimg, self.rat_rect, GAME_TILE_SIZE)
+        self.rat2 = Hero(self.rat_fulimg, self.rat2_rect, GAME_TILE_SIZE)
+        self.rat3 = Hero(self.rat_fulimg, self.rat3_rect, GAME_TILE_SIZE)
 
 
     def collide(self, hero_rect1, hero_rect2, GAME_TILE_SIZE):
@@ -252,6 +262,8 @@ class Game:
                 move_rat = True
                 last_rat_move = ticks
             self.rat.monster_move(self.screen, self.hero_rect, self.game_block_group, move_rat, GAME_TILE_SIZE)
+            self.rat2.monster_move(self.screen, self.hero_rect, self.game_block_group, move_rat, GAME_TILE_SIZE)
+            self.rat3.monster_move(self.screen, self.hero_rect, self.game_block_group, move_rat, GAME_TILE_SIZE)
 
             # create new wall every CREATE_WALL_INTERVAL seconds
             if ticks > last_wall_time + CREATE_WALL_INTERVAL:
@@ -279,6 +291,10 @@ class Game:
 
             # collision detection
             lose_game = self.collide(self.rat_rect, self.hero_rect, GAME_TILE_SIZE)
+            if not lose_game:
+                lose_game = self.collide(self.rat2_rect, self.hero_rect, GAME_TILE_SIZE)
+            if not lose_game:
+                lose_game = self.collide(self.rat3_rect, self.hero_rect, GAME_TILE_SIZE)
 
             pygame.display.update()
             self.clock.tick(self.fps)
