@@ -40,6 +40,7 @@ HERO_TILE_SIZE = 32  # size in px of main player height and width
 GAME_TILE_SIZE = 32   # size in px of main grid height and width
 PLAYER_BORN_X = 1 * HERO_TILE_SIZE  # x position where hero starts in px
 PLAYER_BORN_Y = 1 * HERO_TILE_SIZE  # y position where hero starts in px
+CREATE_WALL_INTERVAL = 5  * ONE_SECOND # create new wall block every x seconds
 
 RAT_IMG = "./resources/images/rat.png"
 RAT_BORN_X = 23 * HERO_TILE_SIZE  # x position where rat starts in px
@@ -252,19 +253,25 @@ class Game:
                 last_rat_move = ticks
             self.rat.monster_move(self.screen, self.hero_rect, self.game_block_group, move_rat, GAME_TILE_SIZE)
 
-            # create new wall
-            if ticks > last_wall_time + 3*ONE_SECOND:
-                # last_wall_time = ticks
-                add_wall_rect = self.game_newwalls_block_group[0].rect
-                print(type(add_wall_rect))
-                print(type(self.game_block_group[0]))
-                block = Block(pygame.Rect(add_wall_rect))
-                self.screen.blit(self.newwall_img, add_wall_rect)  # put new wall block on screen
-                pygame.display.update(add_wall_rect)  # update wall block
-                # pre-pend this block to main game block list
-                self.game_block_group.insert(0,block)
-
-                # wall_counter += 1
+            # create new wall every CREATE_WALL_INTERVAL seconds
+            if ticks > last_wall_time + CREATE_WALL_INTERVAL:
+                # if counter within range of new blocks add new tile
+                if wall_counter < len(self.game_newwalls_block_group):
+                    #  new rectancle to add
+                    add_wall_rect = self.game_newwalls_block_group[wall_counter].rect
+                    #  new block to add
+                    block = Block(pygame.Rect(add_wall_rect))
+                    # update block rectangle to screen
+                    pygame.display.update(add_wall_rect)
+                    # pre-pend this block to main game block list so players cant get through walls
+                    self.game_block_group.insert(wall_counter,block)
+                    # reset counter flag
+                    last_wall_time = ticks
+                    # increment counter
+                    wall_counter += 1
+            # blit all new blocks to screen
+            for new_tile in range(wall_counter):
+                self.screen.blit(self.newwall_img, self.game_newwalls_block_group[new_tile])  # put new wall block on screen
 
             # logic update
             press_keys = pygame.key.get_pressed()
