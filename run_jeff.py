@@ -261,6 +261,8 @@ class Game:
             if ticks > last_rat_move + SLOW_RAT:
                 move_rat = True
                 last_rat_move = ticks
+
+            # Draw the rats to the screen
             self.rat.monster_move(self.screen, self.hero_rect, self.game_block_group, move_rat, GAME_TILE_SIZE)
             self.rat2.monster_move(self.screen, self.hero_rect, self.game_block_group, move_rat, GAME_TILE_SIZE)
             self.rat3.monster_move(self.screen, self.hero_rect, self.game_block_group, move_rat, GAME_TILE_SIZE)
@@ -289,7 +291,7 @@ class Game:
             press_keys = pygame.key.get_pressed()
             game_over = self.hero.hero_moving(self.screen, press_keys, self.game_block_group, SCREEN_SIZE[0], SCREEN_SIZE[1], WIN_BLOCK_FROM_END, GAME_TILE_SIZE)
 
-            # collision detection
+            # collision detection with rats and hero. Check all rats individually
             lose_game = self.collide(self.rat_rect, self.hero_rect, GAME_TILE_SIZE)
             if not lose_game:
                 lose_game = self.collide(self.rat2_rect, self.hero_rect, GAME_TILE_SIZE)
