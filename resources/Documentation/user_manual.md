@@ -1,6 +1,6 @@
-**Jeff’s Lair - User Manual**
+#**Jeff’s Lair - User Manual**
 
-**Introduction**
+##**Introduction**
 Welcome to Jeff's Lair. 
 
 You have been captured by the evil wizard Jeff, turned into a crocodile and put in a dungeon. 
@@ -8,7 +8,7 @@ You have been captured by the evil wizard Jeff, turned into a crocodile and put 
 You must escape fast and avoid the rats. 
 
 
-**Game play**
+##**Game play**
 Click in the name box and enter your name. Click on "Start" to start the game. 
 
 Use left, right, up and down arrows to steer your crocodile around the maze. \
@@ -18,6 +18,6 @@ Watch out for the rats. If they touch you, you lose.
 
 You only have 100 seconds, so go as fast as you can!
 
-**Scoring**
-See how fast you got out of the maze and try again to beat your best score.
+###__Scoring__
+See how fast you got out of the maze and try again to beat your best score. Can you make it to the leader board?
 

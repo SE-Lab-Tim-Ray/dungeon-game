@@ -42,6 +42,7 @@ PLAYER_BORN_X = 1 * HERO_TILE_SIZE  # x position where hero starts in px
 PLAYER_BORN_Y = 1 * HERO_TILE_SIZE  # y position where hero starts in px
 CREATE_WALL_INTERVAL = 5  * ONE_SECOND # create new wall block every x seconds
 
+# rats start positions, image and speed
 RAT_IMG = "./resources/images/rat.png"
 RAT_BORN_X = 23 * HERO_TILE_SIZE  # x position where rat starts in px
 RAT_BORN_Y = 17 * HERO_TILE_SIZE  # y position where rat starts in px
@@ -51,7 +52,7 @@ RAT3_BORN_X = 1 * HERO_TILE_SIZE  # x position where rat starts in px
 RAT3_BORN_Y = 17 * HERO_TILE_SIZE  # y position where rat starts in px
 SLOW_RAT = 10  # make rat update every x ms
 
-# Leaderboard
+# Leaderboard styling
 LEADERBOARD_IMG = "./resources/images/leaderboard.png"
 LEADER_BOARD_X = 200
 LEADER_BOARD_Y = 320

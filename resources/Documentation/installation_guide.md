@@ -1,15 +1,18 @@
-**Jeff’s Lair - Installation Guide**
+#**Jeff’s Lair - Installation Guide**
 
-**Requirements:**\
+
+##**Tested on:**
+• Apple Mac\
+• Mojave\
 • Python 3.7\
-• PIP (should be installed with Python)
+• PIP (should be installed with Python)\
 • Pygame (Type in Terminal: python3 -m pip install -U pygame --user)\
 
-**To run the game:**
-1. Dowload all files in github repository\
+##**To run the game:**
+1. Dowload all files in github repository
 2. Run "run_jeff.py"
 
-**Running slow on a Mac?**
+##**Running slow on your Mac?**
 Because of the resolution of the display, Jeff's Lair may run slower on an Apple Mac. 
 You can try this to speed it up:
 
