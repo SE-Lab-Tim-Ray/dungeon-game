@@ -4,3 +4,6 @@ JeffisLiar/GameMap.py
 JeffisLiar/Hero.py
 JeffisLiar/Startbox.py
 JeffisLiar/main.py
+include data *
+include LICENSE.txt
+include README.md
