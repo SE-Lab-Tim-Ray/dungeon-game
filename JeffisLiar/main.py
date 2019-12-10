@@ -199,5 +199,7 @@ class Game:
             pygame.display.update()
             self.clock.tick(self.fps)
 
+if __name__ == "__main__":
 
+    Game(GAME_TITLE, SCREEN_SIZE[0], SCREEN_SIZE[1], nickname = startbox())
 
