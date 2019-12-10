@@ -1,10 +1,11 @@
 from JeffisLiar.Hero import *
 from JeffisLiar.GameMap import *
 from JeffisLiar.Startbox import *
-
+import os, pygame
 """
 CONSTANTS
 """
+main_dir = os.path.split(os.path.abspath(__file__))[0]
 # Game constants
 WHITE = (255, 255, 255)
 GAME_TITLE = "Jeff's Lair"
@@ -19,15 +20,15 @@ TIMER_LOCATION = (8, 8)
 TIMER_TEXT = "Time remaining: "
 
 # Building the maze
-MAZE_WIN_IMG = "./JeffisLiar/resources/images/1_win.png"
-MAZE_LOSE_IMG = "./JeffisLiar/resources/images/1_lose.png"
+MAZE_WIN_IMG = os.path.join(main_dir, 'resources/images', '1_win.png')
+MAZE_LOSE_IMG = os.path.join(main_dir, 'resources/images', '1_lose.png')
 NICKNAME_LOCATION = (280, 350)
 NICKNAME_FONT_SIZE = 40
 NICKNAME_TEXT = "Well done "
 NICKNAME_LEADING = 20
-MAZE_MAP_IMG = "./JeffisLiar/resources/images/1_maze.png"
-MAZE_MAP = "./JeffisLiar/resources/maps/1_maze.txt"
-CHARACTER_IMG = "./JeffisLiar/resources/images/1_char.png"
+MAZE_MAP_IMG = os.path.join(main_dir, 'resources/images', '1_maze.png')
+MAZE_MAP = os.path.join(main_dir, 'resources/maps', '1_maze.txt')
+CHARACTER_IMG = os.path.join(main_dir, 'resources/images', '1_char.png')
 
 WIN_BLOCK_FROM_END = 26  # defines the win square
 HERO_TILE_SIZE = 32  # size in px of main player height and width
@@ -35,7 +36,7 @@ GAME_TILE_SIZE = 32   # size in px of main grid height and width
 PLAYER_BORN_X = 1 * HERO_TILE_SIZE  # x position where hero starts in px
 PLAYER_BORN_Y = 1 * HERO_TILE_SIZE  # y position where hero starts in px
 
-RAT_IMG = "./JeffisLiar/resources/images/rat.png"
+RAT_IMG = os.path.join(main_dir, 'resources/images', 'rat.png')
 RAT_BORN_X = 23 * HERO_TILE_SIZE  # x position where rat starts in px
 RAT_BORN_Y = 17 * HERO_TILE_SIZE  # y position where rat starts in px
 SLOW_RAT = 10  # make rat update every x ms
