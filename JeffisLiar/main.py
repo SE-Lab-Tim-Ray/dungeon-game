@@ -1,6 +1,6 @@
-from Hero import *
-from GameMap import *
-from Startbox import *
+from JeffisLiar.Hero import *
+from JeffisLiar.GameMap import *
+from JeffisLiar.Startbox import *
 
 """
 CONSTANTS
