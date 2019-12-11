@@ -22,7 +22,8 @@ TIMER_TEXT = "Time remaining: "
 
 # intro screen
 INTRO_SCREEN_IMG = "./resources/images/1_intro1.png"
-
+JEFFS_INTRO_SOUND = "./resources/sounds/jeff.ogg"
+JEFFS_PLAY_SOUND = "./resources/sounds/loop.ogg"
 
 # Building the maze
 MAZE_WIN_IMG = "./resources/images/1_win.png"
@@ -198,8 +199,6 @@ class Game:
 
 
     def update(self):
-        # initialise counter
-        counter = COUNTER_START
 
         # Display intro screen
         self.screen.blit(self.maze_intro_img, (0, 0))
@@ -207,7 +206,7 @@ class Game:
 
         # run some sound
         pygame.mixer.init()
-        pygame.mixer.music.load('foo.mp3')
+        pygame.mixer.music.load(JEFFS_INTRO_SOUND)
         pygame.mixer.music.play(0)
 
         run_intro = True
@@ -217,8 +216,13 @@ class Game:
             for m in pygame.event.get():
                 if m.type == KEYDOWN:
                     run_intro = False
+                    pygame.mixer.fadeout(500)
+                    pygame.mixer.music.load(JEFFS_PLAY_SOUND)
+                    pygame.mixer.music.play(0)
                     continue
 
+        # initialise counter
+        counter = COUNTER_START
 
         # counts time elapsed in ticks for timer
         last_time = 0
