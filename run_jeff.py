@@ -20,6 +20,10 @@ TIMER_FONT_SIZE = 24
 TIMER_LOCATION = (8, 8)
 TIMER_TEXT = "Time remaining: "
 
+# intro screen
+INTRO_SCREEN_IMG = "./resources/images/1_intro1.png"
+
+
 # Building the maze
 MAZE_WIN_IMG = "./resources/images/1_win.png"
 MAZE_WIN_HOLDSCREEN = 3 * ONE_SECOND  # Time to hold win screen
@@ -123,11 +127,13 @@ class Game:
         self.maze_win_img = pygame.image.load(MAZE_WIN_IMG).convert_alpha()
         self.maze_lose_img = pygame.image.load(MAZE_LOSE_IMG).convert_alpha()
         self.maze_leaderboard_img = pygame.image.load(LEADERBOARD_IMG).convert_alpha()
+        self.maze_intro_img = pygame.image.load(INTRO_SCREEN_IMG).convert_alpha()
         self.game_map_img = pygame.image.load(MAZE_MAP_IMG).convert_alpha()
         self.game_map = GameMap(self.game_map_img, 0, 0)
         self.game_block_group = self.game_map.make_block_group(MAZE_MAP, GAME_TILE_SIZE, WALL_CHAR)
         self.game_newwalls_block_group = self.game_map.make_block_group(MAZE_MAP, GAME_TILE_SIZE, WALL_CHAR_NEW)
         self.newwall_img = pygame.image.load(WALL_NEW_TILE).convert_alpha()
+
         # initialise hero
         self.hero_fulimg = pygame.image.load(CHARACTER_IMG).convert_alpha()
         self.hero_rect = Rect(self.hero_born_x, self.hero_born_y, self.hero_width, self.hero_height)
@@ -194,6 +200,19 @@ class Game:
     def update(self):
         # initialise counter
         counter = COUNTER_START
+
+        # Display intro screen
+        self.screen.blit(self.maze_intro_img, (0, 0))
+        pygame.display.update()
+        run_intro = True
+
+        # hold intro until key pressed
+        while run_intro:
+            for m in pygame.event.get():
+                if m.type == KEYDOWN:
+                    run_intro = False
+                    continue
+
 
         # counts time elapsed in ticks for timer
         last_time = 0
