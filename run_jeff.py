@@ -204,6 +204,12 @@ class Game:
         # Display intro screen
         self.screen.blit(self.maze_intro_img, (0, 0))
         pygame.display.update()
+
+        # run some sound
+        pygame.mixer.init()
+        pygame.mixer.music.load('foo.mp3')
+        pygame.mixer.music.play(0)
+
         run_intro = True
 
         # hold intro until key pressed
