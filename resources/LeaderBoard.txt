@@ -1,5 +1,5 @@
-Zhou,80
-Hajar,56
-Tim,56
-Tim,45
+Hajar,51
+Zhou,36
 Geetha,34
+Ray,33
+Devon,21

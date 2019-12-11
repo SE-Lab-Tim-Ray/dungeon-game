@@ -1,16 +1,11 @@
 from unittest import TestCase
-import pygame
-
-
-from Code.Hero import *
-
+from Code import GameMap as GameMapClass
 class TestHero(TestCase):
-    def test_hero(self):
-        self.hero_fulimg = pygame.image.load("../resources/images/1_char.png").convert_alpha()
-        self.assertIsNone(self.hero_fulimg) # load img successfully
-        self.hero_rect = Rect(32, 32, 32, 32)
-        self.hero = Hero(self.hero_fulimg, self.hero_rect, 32)
-        self.assertIsInstance(self.hero, Hero)  # hero instantiate successfully
-
-
-
+    # the basic class
+    gamemap = GameMapClass.GameMap
+    def test_0_make_block_group(self):
+        blockgroup = self.gamemap.make_block_group(self, "../resources/maps/1_maze.txt", 32)
+        # check if there is at least one block
+        self.assertIsNotNone(blockgroup[0])  # null blockgroup will fail
+        self.assertEqual(blockgroup[0].rect.top,0)  # test there is a block in top left
+        self.assertEqual(blockgroup[0].rect.left,0)  # test there is a block in top left
