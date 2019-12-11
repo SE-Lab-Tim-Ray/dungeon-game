@@ -4,6 +4,9 @@ JeffisLiar/GameMap.py
 JeffisLiar/Hero.py
 JeffisLiar/Startbox.py
 JeffisLiar/main.py
-include data *
-include LICENSE.txt
-include README.md
+JeffisLiar/data/1_char.png
+JeffisLiar/data/1_lose.png
+JeffisLiar/data/1_maze.png
+JeffisLiar/data/1_maze.txt
+JeffisLiar/data/1_win.png
+JeffisLiar/data/rat.png
