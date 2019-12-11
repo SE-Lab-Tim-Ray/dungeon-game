@@ -35,7 +35,10 @@ NICKNAME_LEADING = 20
 MAZE_MAP_IMG = "./resources/images/1_maze.png"
 MAZE_MAP = "./resources/maps/1_maze.txt"
 CHARACTER_IMG = "./resources/images/1_char.png"
-KEY_IMG = "./resources/images/11_key.png"
+KEY_IMG1 = "./resources/images/11_key.png"
+KEY_IMG2 = "./resources/images/12_key.png"
+KEY_IMG3 = "./resources/images/13_key.png"
+KEY_IMG4 = "./resources/images/14_key.png"
 
 
 WIN_BLOCK_FROM_END = 26  # defines the win square
@@ -147,19 +150,22 @@ class Game:
         self.rat2 = Hero(self.rat_fulimg, self.rat2_rect, GAME_TILE_SIZE)
         self.rat3 = Hero(self.rat_fulimg, self.rat3_rect, GAME_TILE_SIZE)
         # key
-        self.key_fulimg = pygame.image.load(KEY_IMG).convert_alpha()
+        self.key_fulimg1 = pygame.image.load(KEY_IMG1).convert_alpha()
+        self.key_fulimg2 = pygame.image.load(KEY_IMG2).convert_alpha()
+        self.key_fulimg3 = pygame.image.load(KEY_IMG3).convert_alpha()
+        self.key_fulimg4 = pygame.image.load(KEY_IMG4).convert_alpha()
         # key 1
         self.key1_rect = Rect(self.key1_x, self.key1_y, self.key_width, self.key_height)
-        self.key1 = Key(self.key_fulimg, self.key1_rect, GAME_TILE_SIZE)
+        self.key1 = Key(self.key_fulimg1, self.key1_rect, GAME_TILE_SIZE)
         # key 2
         self.key2_rect = Rect(self.key2_x, self.key2_y, self.key_width, self.key_height)
-        self.key2 = Key(self.key_fulimg, self.key2_rect, GAME_TILE_SIZE)
+        self.key2 = Key(self.key_fulimg2, self.key2_rect, GAME_TILE_SIZE)
         # key 3
         self.key3_rect = Rect(self.key3_x, self.key3_y, self.key_width, self.key_height)
-        self.key3 = Key(self.key_fulimg, self.key3_rect, GAME_TILE_SIZE)
+        self.key3 = Key(self.key_fulimg3, self.key3_rect, GAME_TILE_SIZE)
         # key 4
         self.key4_rect = Rect(self.key4_x, self.key4_y, self.key_width, self.key_height)
-        self.key4 = Key(self.key_fulimg, self.key4_rect, GAME_TILE_SIZE)
+        self.key4 = Key(self.key_fulimg4, self.key4_rect, GAME_TILE_SIZE)
 
 
 
