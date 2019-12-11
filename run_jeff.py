@@ -2,6 +2,7 @@ from Code.Hero import *
 from Code.GameMap import *
 from Code.Startbox import *
 from Code.LeaderBoard import *
+from Code.Key import *
 
 """
 CONSTANTS
@@ -34,7 +35,8 @@ NICKNAME_LEADING = 20
 MAZE_MAP_IMG = "./resources/images/1_maze.png"
 MAZE_MAP = "./resources/maps/1_maze.txt"
 CHARACTER_IMG = "./resources/images/1_char.png"
-KEY_IMG = "./resources/images/1_key.png"
+KEY_IMG = "./resources/images/11_key.png"
+
 
 WIN_BLOCK_FROM_END = 26  # defines the win square
 HERO_TILE_SIZE = 32  # size in px of main player height and width
@@ -89,6 +91,18 @@ class Game:
         self.hero_width = HERO_TILE_SIZE
         self.hero_height = HERO_TILE_SIZE
 
+        # key
+        self.key1_x = KEY1_BORN_X
+        self.key1_y = KEY1_BORN_Y
+        self.key2_x = KEY2_BORN_X
+        self.key2_y = KEY2_BORN_Y
+        self.key3_x = KEY3_BORN_X
+        self.key3_y = KEY3_BORN_Y
+        self.key4_x = KEY4_BORN_X
+        self.key4_y = KEY4_BORN_Y
+
+        self.key_width = 32
+        self.key_height = 32
         # run functions below
         self.__init_pygame()
         self.__init_game()
@@ -132,6 +146,21 @@ class Game:
         self.rat = Hero(self.rat_fulimg, self.rat_rect, GAME_TILE_SIZE)
         self.rat2 = Hero(self.rat_fulimg, self.rat2_rect, GAME_TILE_SIZE)
         self.rat3 = Hero(self.rat_fulimg, self.rat3_rect, GAME_TILE_SIZE)
+        # key
+        self.key_fulimg = pygame.image.load(KEY_IMG).convert_alpha()
+        # key 1
+        self.key1_rect = Rect(self.key1_x, self.key1_y, self.key_width, self.key_height)
+        self.key1 = Key(self.key_fulimg, self.key1_rect, GAME_TILE_SIZE)
+        # key 2
+        self.key2_rect = Rect(self.key2_x, self.key2_y, self.key_width, self.key_height)
+        self.key2 = Key(self.key_fulimg, self.key2_rect, GAME_TILE_SIZE)
+        # key 3
+        self.key3_rect = Rect(self.key3_x, self.key3_y, self.key_width, self.key_height)
+        self.key3 = Key(self.key_fulimg, self.key3_rect, GAME_TILE_SIZE)
+        # key 4
+        self.key4_rect = Rect(self.key4_x, self.key4_y, self.key_width, self.key_height)
+        self.key4 = Key(self.key_fulimg, self.key4_rect, GAME_TILE_SIZE)
+
 
 
     def collide(self, hero_rect1, hero_rect2, GAME_TILE_SIZE):
@@ -174,9 +203,26 @@ class Game:
         game_over = False
         lose_game = False
         win_time = 0
-        # main game loop
+
+        get_key1 = False
+        get_key2 = False
+        get_key3 = False
+        get_key4 = False
+        key1_num = 1
+        key2_num = 2
+        key3_num = 3
+        key4_num = 4
+
+        key1_count = 0
+        key2_count = 0
+        key3_count = 0
+        key4_count = 0
+
+
+
+   # main game loop
         while 1:
-            if game_over:
+            if game_over and key1_count == 1 and key2_count == 1 and key3_count == 1 and key4_count == 1:
                 global count, leader_board_content
                 # hold the win screen
                 if win_time == 0:
@@ -248,6 +294,16 @@ class Game:
             # draw the map
             self.game_map.draw_map(self.screen)
 
+            # draw key
+            if not get_key1:
+                self.key1.draw_keys(self.screen, key1_num)
+            if not get_key2:
+                self.key2.draw_keys(self.screen, key2_num)
+            if not get_key3:
+                self.key3.draw_keys(self.screen, key3_num)
+            if not get_key4:
+                self.key4.draw_keys(self.screen, key4_num)
+
             # Timer. Check for 1000ms passed since last_time then reduce counter by one
             ticks = pygame.time.get_ticks()
             if ticks > last_time + ONE_SECOND:
@@ -289,16 +345,35 @@ class Game:
             for new_tile in range(wall_counter):
                 self.screen.blit(self.newwall_img, self.game_newwalls_block_group[new_tile])  # put new wall block on screen
 
-            # logic update
+                # logic update
             press_keys = pygame.key.get_pressed()
-            game_over = self.hero.hero_moving(self.screen, press_keys, self.game_block_group, SCREEN_SIZE[0], SCREEN_SIZE[1], WIN_BLOCK_FROM_END, GAME_TILE_SIZE)
+            game_over, has_got_key1, has_got_key2, has_got_key3, has_got_key4 = self.hero.hero_moving(self.screen, press_keys, self.game_block_group, SCREEN_SIZE[0], SCREEN_SIZE[1], WIN_BLOCK_FROM_END, GAME_TILE_SIZE)
+            if not get_key1:
+                get_key1 = has_got_key1
+                key1_count = 0
+            if get_key1:
+                key1_count = 1
 
-            # collision detection with rats and hero. Check all rats individually
+            if not get_key2:
+                get_key2 = has_got_key2
+                key2_count = 0
+            if get_key2:
+                key2_count = 1
+
+            if not get_key3:
+                get_key3 = has_got_key3
+                key3_count = 0
+            if get_key3:
+                key3_count = 1
+
+            if not get_key4:
+                get_key4 = has_got_key4
+                key4_count = 0
+            if get_key4:
+                key4_count = 1
+
+            # collision detection
             lose_game = self.collide(self.rat_rect, self.hero_rect, GAME_TILE_SIZE)
-            if not lose_game:
-                lose_game = self.collide(self.rat2_rect, self.hero_rect, GAME_TILE_SIZE)
-            if not lose_game:
-                lose_game = self.collide(self.rat3_rect, self.hero_rect, GAME_TILE_SIZE)
 
             pygame.display.update()
             self.clock.tick(self.fps)
