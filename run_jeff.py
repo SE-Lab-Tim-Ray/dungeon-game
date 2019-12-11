@@ -218,7 +218,7 @@ class Game:
                     run_intro = False
                     pygame.mixer.fadeout(500)
                     pygame.mixer.music.load(JEFFS_PLAY_SOUND)
-                    pygame.mixer.music.play(0)
+                    pygame.mixer.music.play(-1)
                     continue
 
         # initialise counter
