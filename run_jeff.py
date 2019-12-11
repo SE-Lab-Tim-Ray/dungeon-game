@@ -34,6 +34,7 @@ NICKNAME_LEADING = 20
 MAZE_MAP_IMG = "./resources/images/1_maze.png"
 MAZE_MAP = "./resources/maps/1_maze.txt"
 CHARACTER_IMG = "./resources/images/1_char.png"
+KEY_IMG = "./resources/images/1_key.png"
 
 WIN_BLOCK_FROM_END = 26  # defines the win square
 HERO_TILE_SIZE = 32  # size in px of main player height and width
