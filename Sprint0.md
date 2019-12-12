@@ -15,7 +15,7 @@
 
 ### meeting <24/10/19>
 * Brainstorming  ideas and prepare pitch for customer
-* Two stories outlined, agreed on view point of each game -resources/Documentation/Extra documentation/Story 1 and Story 2 - Pitch.docx)
+* Two stories outlined, agreed on view point of each game _resources/Documentation/Extra documentation/Story 1 and Story 2 - Pitch.docx_
 * Hajar and Geetha were assigned the task of working on the documentation of the project
 * Hajar will write user stories
 * Geetha will be scribe in all customer and team meetings 
