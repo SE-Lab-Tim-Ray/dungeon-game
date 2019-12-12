@@ -151,13 +151,14 @@
 
 ### requirements use cases
 * UML SPRINT 1 (resources/images/UMLs/Sprint1.jpeg)
+
 ## Introduction Screen
 * Connected to the following user stories: 
 * 1: As a player, I want to input my character name 
 * 2: As a player, I want to press the start game button 
-* QWERTY keyboard input 
-
-## Connected to the following user stories:
+ 
+## QWERTY keyboard input
+* Connected to the following user stories:
 * 1: As a player, I want to input my character name 
 * 5: As a player, I want to be able to move my character
 
@@ -170,13 +171,13 @@
 * 5: As a player, I want to be able to move my character
 * 6: As a player, I want to be able to view the maze I need to traverse
 
-##Countdown timer 
+## Countdown timer 
 * Connected to the following user stories:
 * 3: As a player, I want to be able to see the time I have left (countdown) 
 * 4: As a player, after I finish the game, I want to see the leaderboard
 * 7: As a player, I want to be able to know when I have completed the maze
 
-##Leaderboard
+## Leaderboard
 * Connected to the following user stories:
 * 1: As a player, I want to input my character name 
 * 3: As a player, I want to be able to see the time I have left (countdown) 
