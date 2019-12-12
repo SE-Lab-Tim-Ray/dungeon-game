@@ -2,7 +2,7 @@
 
 ## overview
 * Sprint zero can be described as building the foundation for our game. 
-* The focus of the first two weeks was to informally brainstorm and establish roles within the group, with the use of a skills matrix resources/images/Skills matrix.jpeg
+* The focus of the first two weeks was to informally brainstorm and establish roles within the group, with the use of a skills matrix (resources/images/Skills matrix.jpeg).
 * The organisation of the group rapidly improved once the development team and scrum master were established, meetings became more frequent and well organised with objectives of each meeting set beforehand.
 
 ## review of sprint 0 
