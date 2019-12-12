@@ -9,13 +9,13 @@
 * In a sprint review meeting on 18th November, we expressed our thoughts on the progress made in the sprint and how we thought we could improve. 
 * We agreed to continue Scrum meetings, organise our Trello backlogs and ensure our objectives are all up to date. 
 * We ranked the features of our game from high priority to low priority to help set objectives for sprint 1. 
-* The features we found of greatest importance were the timer(user story 5, version 2) , as it determines a players score upon completing the game, the leaderboard (user story 7, version 2) and a start button. 
+* The features we found of greatest importance were the timer(user story 5, version 2), as it determines a players score upon completing the game, the leaderboard (user story 7, version 2) and a start button. 
 
 ## meeting minutes
 
 ### meeting <24/10/19>
 * Brainstorming  ideas and prepare pitch for customer
-* Two stories outlined, agreed on view point of each game (resources/Documentation/Extra documentation/Story 1 and Story 2 - Pitch.docx)
+* Two stories outlined, agreed on view point of each game -resources/Documentation/Extra documentation/Story 1 and Story 2 - Pitch.docx)
 * Hajar and Geetha were assigned the task of working on the documentation of the project
 * Hajar will write user stories
 * Geetha will be scribe in all customer and team meetings 
