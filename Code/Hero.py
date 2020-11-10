@@ -1,4 +1,5 @@
-from pygame.locals import *
+from Code.Key import *
+
 
 class Hero:
     def __init__(self, hero_fulimg, hero_rect, GAME_TILE_SIZE):
@@ -10,6 +11,9 @@ class Hero:
         self.hero_rect = hero_rect
         self.hero_speed = 4
 
+    def pick_key(self):
+        pass
+
     def hero_moving(self, screen, press_keys, block_group, window_x, window_y, WIN_BLOCK_FROM_END, GAME_TILE_SIZE):
         """
         use the block_group list created by GameMap.py
@@ -20,6 +24,12 @@ class Hero:
         """
         #  assume the game is not over until proved otherwise
         is_over = False
+
+        # get the key
+        get_key1 = False
+        get_key2 = False
+        get_key3 = False
+        get_key4 = False
 
         # end game on hitting escape
         if press_keys[K_ESCAPE]:
@@ -44,6 +54,14 @@ class Hero:
                         else:
                             # hit a normal block so undo the move
                             self.hero_rect.left += self.hero_speed
+            if self.hero_rect.left == KEY1_X*GAME_TILE_SIZE and self.hero_rect.top == KEY1_Y*GAME_TILE_SIZE:
+                get_key1 = True
+            if self.hero_rect.left == KEY2_X*GAME_TILE_SIZE and self.hero_rect.top == KEY2_Y*GAME_TILE_SIZE:
+                get_key2 = True
+            if self.hero_rect.left == KEY3_X*GAME_TILE_SIZE and self.hero_rect.top == KEY3_Y*GAME_TILE_SIZE:
+                get_key3 = True
+            if self.hero_rect.left == KEY4_X*GAME_TILE_SIZE and self.hero_rect.top == KEY4_Y*GAME_TILE_SIZE:
+                get_key4 = True
 
         if press_keys[K_RIGHT]:
             self.hero_rect.left += self.hero_speed
@@ -57,6 +75,14 @@ class Hero:
                             is_over = True
                         else:
                             self.hero_rect.left -= self.hero_speed
+            if self.hero_rect.left == KEY1_X*GAME_TILE_SIZE and self.hero_rect.top == KEY1_Y*GAME_TILE_SIZE:
+                get_key1 = True
+            if self.hero_rect.left == KEY2_X*GAME_TILE_SIZE and self.hero_rect.top == KEY2_Y*GAME_TILE_SIZE:
+                get_key2 = True
+            if self.hero_rect.left == KEY3_X*GAME_TILE_SIZE and self.hero_rect.top == KEY3_Y*GAME_TILE_SIZE:
+                get_key3 = True
+            if self.hero_rect.left == KEY4_X*GAME_TILE_SIZE and self.hero_rect.top == KEY4_Y*GAME_TILE_SIZE:
+                get_key4 = True
 
         if press_keys[K_UP]:
             self.hero_rect.top -= self.hero_speed
@@ -70,6 +96,14 @@ class Hero:
                             is_over = True
                         else:
                             self.hero_rect.top += self.hero_speed
+            if self.hero_rect.left == KEY1_X*GAME_TILE_SIZE and self.hero_rect.top == KEY1_Y*GAME_TILE_SIZE:
+                get_key1 = True
+            if self.hero_rect.left == KEY2_X*GAME_TILE_SIZE and self.hero_rect.top == KEY2_Y*GAME_TILE_SIZE:
+                get_key2 = True
+            if self.hero_rect.left == KEY3_X*GAME_TILE_SIZE and self.hero_rect.top == KEY3_Y*GAME_TILE_SIZE:
+                get_key3 = True
+            if self.hero_rect.left == KEY4_X*GAME_TILE_SIZE and self.hero_rect.top == KEY4_Y*GAME_TILE_SIZE:
+                get_key4 = True
 
         if press_keys[K_DOWN]:
             self.hero_rect.top += self.hero_speed
@@ -83,9 +117,17 @@ class Hero:
                             is_over = True  # winner
                         else:
                             self.hero_rect.top -= self.hero_speed
+            if self.hero_rect.left == KEY1_X*GAME_TILE_SIZE and self.hero_rect.top == KEY1_Y*GAME_TILE_SIZE:
+                get_key1 = True
+            if self.hero_rect.left == KEY2_X*GAME_TILE_SIZE and self.hero_rect.top == KEY2_Y*GAME_TILE_SIZE:
+                get_key2 = True
+            if self.hero_rect.left == KEY3_X*GAME_TILE_SIZE and self.hero_rect.top == KEY3_Y*GAME_TILE_SIZE:
+                get_key3 = True
+            if self.hero_rect.left == KEY4_X*GAME_TILE_SIZE and self.hero_rect.top == KEY4_Y*GAME_TILE_SIZE:
+                get_key4 = True
 
         screen.blit(self.hero_img[0], self.hero_rect)
-        return is_over
+        return is_over, get_key1, get_key2, get_key3, get_key4
 
 
     def monster_move(self, screen, hero_rect, block_group, move_rat, GAME_TILE_SIZE):
